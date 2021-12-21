@@ -19,6 +19,7 @@
             <i class="far fa-plus-square"></i> Cadastrar clientes</button>
         <br />
         <br />
+
         <table id="idTabelaClientes" class="table table-responsive table-striped table-hover">
             <thead>
                 <tr>
@@ -56,9 +57,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Teste</td>
-                    <td>Teste</td>
-                    <td>Teste</td>
+                    <td>ze</td>
+                    <td>silva</td>
+                    <td>01/01/1950</td>
                     <td>Teste</td>
                     <td>Teste</td>
                     <td>Teste</td>
@@ -66,7 +67,22 @@
                     <td>Teste</td>
                     <td>Teste</td>
                     <td>
-                        <button type="button" class="btn btn-warning btnEditar">Editar <i class="far fa-edit"></i></button>
+                        <button type="button" value="5" class="btn btn-warning btnEditar">Editar <i class="far fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger btnExcluir">Excluir <i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>Teste222</td>
+                    <td>
+                        <button type="button" value="6" class="btn btn-warning btnEditar">Editar <i class="far fa-edit"></i></button>
                         <button type="button" class="btn btn-danger btnExcluir">Excluir <i class="far fa-trash-alt"></i></button>
 
                     </td>
