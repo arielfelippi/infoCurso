@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,15 +12,66 @@
     <script src="./js/cadastro.js"></script>
 </head>
 <body>
-
     <br />
     <div class="container">
 
-        <button type="button" class="btn btn-primary btnCriarcliente" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <button type="button" class="btn btn-primary btnCriarCliente" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             <i class="far fa-plus-square"></i> Cadastrar clientes</button>
         <br />
         <br />
-        <table id="idTabelaclientes" class="table table-responsive table-striped table-hover">
+        <table id="idTabelaClientes" class="table table-responsive table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        nome
+                    </th>
+                    <th>
+                        sobrenome
+                    </th>
+                    <th>
+                        dataNascimento
+                    </th>
+                    <th>
+                        email
+                    </th>
+                    <th>
+                        endereco
+                    </th>
+                    <th>
+                        cidade
+                    </th>
+                    <th>
+                        estado
+                    </th>
+                    <th>
+                        nomeUsuario
+                    </th>
+                    <th>
+                        profissao
+                    </th>
+                    <th>
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>Teste</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btnEditar">Editar <i class="far fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger btnExcluir">Excluir <i class="far fa-trash-alt"></i></button>
+
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
@@ -36,7 +86,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <!-- FORM DA cliente -->
+                    <!-- FORM Do cliente -->
                     <form id="formClientes" class="row g-3 needs-validation" novalidate>
 
                         <div class="col-md-3">
