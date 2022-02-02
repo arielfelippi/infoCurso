@@ -60,6 +60,46 @@ LOCK TABLES `clientes` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `produtos`
+--
+
+DROP TABLE IF EXISTS `produtos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `produtos` (
+  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `descricao` varchar(255) DEFAULT NULL,
+  `codigo_sku` varchar(150) NOT NULL DEFAULT '0',
+  `quantidade` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `peso` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `classificacao` varchar(150) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1,
+  `largura` varchar(30) DEFAULT NULL,
+  `altura` varchar(30) DEFAULT NULL,
+  `profundidade` varchar(30) DEFAULT NULL,
+  `preco` decimal(15,4) NOT NULL DEFAULT 0.0000,
+  `preco_promocional` decimal(15,4) DEFAULT 0.0000,
+  `gtin` varchar(30) NOT NULL DEFAULT '0',
+  `unidade_medida` varchar(10) DEFAULT NULL,
+  `condicao` varchar(50) NOT NULL DEFAULT 'Novo',
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_atualizacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo_sku` (`codigo_sku`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `produtos`
+--
+
+LOCK TABLES `produtos` WRITE;
+/*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `usuarios`
 --
 
@@ -77,7 +117,7 @@ CREATE TABLE `usuarios` (
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `data_atualizacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,7 +126,6 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Caroline','caroline20','tremarincaroline8@gmail.com','qwe123',1,'tremarincaroline8@gmail.com','2022-02-02 00:01:21','2022-02-02 00:01:21');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,4 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-01 21:28:14
+-- Dump completed on 2022-02-01 21:50:11
