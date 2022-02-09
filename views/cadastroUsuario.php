@@ -4,90 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cadastro de clientes</title>
+    <title>Usuários</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/d9fca6b681.js" crossorigin="anonymous"></script>
-    <script src="./js/cadastro.js"></script>
+    <script src="./js/cadastroUsuario.js"></script>
 </head>
 <body>
     <br />
     <div class="container">
 
         <button type="button" class="btn btn-primary btnCriarCliente" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <i class="far fa-plus-square"></i> Cadastrar clientes</button>
+            <i class="far fa-plus-square"></i> Cadastrar usuário</button>
         <br />
         <br />
 
-        <table id="idTabelaClientes" class="table table-responsive table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        nome
-                    </th>
-                    <th>
-                        sobrenome
-                    </th>
-                    <th>
-                        dataNascimento
-                    </th>
-                    <th>
-                        email
-                    </th>
-                    <th>
-                        endereco
-                    </th>
-                    <th>
-                        cidade
-                    </th>
-                    <th>
-                        estado
-                    </th>
-                    <th>
-                        nomeUsuario
-                    </th>
-                    <th>
-                        profissao
-                    </th>
-                    <th>
-                        Ações
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ze</td>
-                    <td>silva</td>
-                    <td>01/01/1950</td>
-                    <td>Teste</td>
-                    <td>Teste</td>
-                    <td>Teste</td>
-                    <td>Teste</td>
-                    <td>Teste</td>
-                    <td>Teste</td>
-                    <td>
-                        <button type="button" value="5" class="btn btn-warning btnEditar">Editar <i class="far fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btnExcluir">Excluir <i class="far fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>Teste222</td>
-                    <td>
-                        <button type="button" value="6" class="btn btn-warning btnEditar">Editar <i class="far fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btnExcluir">Excluir <i class="far fa-trash-alt"></i></button>
-
-                    </td>
-                </tr>
-            </tbody>
+        <table id="idTabelaUsuarios" class="table table-responsive table-striped table-hover">
         </table>
     </div>
 
@@ -103,7 +36,7 @@
                 <div class="modal-body">
 
                     <!-- FORM Do cliente -->
-                    <form id="formClientes" class="row g-3 needs-validation" novalidate>
+                    <form id="formUsuarios" class="row g-3 needs-validation" novalidate>
 
                         <div class="col-md-3">
                             <label for="id" class="form-label">Id da cliente</label>
