@@ -10,6 +10,17 @@ class UsuariosController {
         $this->conexao = $conexao;
     }
 
+    private function desconectar() {
+        $this->conexao->close();
+        $this->conexao = null;
+    }
+
+    public function setResponseAPI($dados) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($dados);
+        exit();
+    }
+
     public function dadosCliente() {
 
         $sql = "SELECT * FROM usuarios";
@@ -18,21 +29,17 @@ class UsuariosController {
         $dados = [];
 
         if ($result->num_rows > 0) {
-
-        while($row = $result->fetch_assoc()) {
-            $dados[] = $row;
+            while($row = $result->fetch_assoc()) {
+                $dados[] = $row;
+            }
         }
-        } else {
-            echo "0 results";
-        }
+        
+        $this->setResponseAPI($dados);
 
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($dados);
-        $this->conexao->close();
-        exit();
     }
 }
 
-$objCadastroController = new UsuariosController($conexao);
-$objCadastroController->dadosCliente();
+$objUsuariosController = new UsuariosController($conexao);
+$objUsuariosController->dadosCliente();
+$objUsuariosController->desconectar();
 
