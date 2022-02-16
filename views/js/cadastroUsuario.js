@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 
     function listarUsuarios() {
-        var urlBackEnd = "http://localhost/infoCurso/controllers/CadastroController.php";
+        var urlBackEnd = "http://localhost/infoCurso/controllers/UsuariosController.php";
 
         $.get(urlBackEnd)
             .done(function (listaDeUsuarios) {
@@ -86,8 +86,5 @@ $(document).ready(function () {
 
         return body;
     }
-
-
-
 
 });
