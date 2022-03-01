@@ -86,7 +86,31 @@ $(document).ready(function () {
 
     // remover/excluir usuário
     $("#idTabelaUsuarios").on("click", ".btnExcluir", function () {
-        $(this).closest("tr").remove();
+        var idUsuario = $(this).val();
+
+        var objetosDaRota = {
+            rota: "excluirUsuario"
+        }
+
+        var urlFinal = urlBackEnd + $.param(objetosDaRota);
+
+        $.post(urlFinal, { id: idUsuario })
+            .done(function (usuarioExcluido) {
+
+                if (usuarioExcluido.success) {
+                    $(this).closest("tr").remove();
+                } else {
+                    var msg = usuarioExcluido.error ? usuarioExcluido.mensagem : "Não foi possível excluir o usuário. Contate o administrados!";
+                    alert(msg);
+                }
+            })
+            .fail(function (error) {
+                alert("error");
+                console.log("\n error: ", error);
+            })
+            .always(function () {
+                console.log("finished");
+            });
     });
 
     // obter dados de um usuário para editar no modal
@@ -96,14 +120,23 @@ $(document).ready(function () {
 
         var objetosDaRota = {
             rota: "obterDadosUsuario",
-            id: idUsuario
+            id: idUsuario,
         }
 
         var urlFinal = urlBackEnd + $.param(objetosDaRota);
 
+        $("#titleModal").text("Editar usuário");
+
         $.get(urlFinal)
-            .done(function (usuarioEditado) {
-                console.log(usuarioEditado)
+            .done(function (dadosUsuario) {
+                $("#id").val(dadosUsuario[0].id);
+                $("#nome").val(dadosUsuario[0].nome);
+                $("#usuario").val(dadosUsuario[0].usuario);
+                $("#email").val(dadosUsuario[0].email);
+                $("#senha").val(dadosUsuario[0].senha);
+                $("#status").val(dadosUsuario[0].status);
+                $("#email_recuperacao").val(dadosUsuario[0].email_recuperacao);
+                $("#staticBackdropModal").modal('show');
             })
             .fail(function (error) {
                 alert("error");
@@ -112,7 +145,60 @@ $(document).ready(function () {
             .always(function () {
                 console.log("finished");
             });
-
-        // $("#staticBackdrop").modal('show');
     });
+
+    // Ao clicar em cadastrar usuario.
+    $(".btnCriarUsuario").on("click", function () {
+        limparFormularioModal();
+    });
+
+    function limparFormularioModal() {
+        $("#titleModal").text("Cadastrar usuário");
+        $("#id").val("");
+        $("#nome").val("");
+        $("#usuario").val("");
+        $("#email").val("");
+        $("#senha").val("");
+        $("#status").val("1");
+        $("#email_recuperacao").val("");
+    }
+
+    // Salvar o usuário seja novo ou um em edição.
+    $(".btnSalvarUsuario").on("click", function () {
+
+        var objetosDaRota = {
+            rota: "salvarAtualizarUsuario"
+        }
+
+        var urlFinal = urlBackEnd + $.param(objetosDaRota);
+        var dadosUsuario = obterDadosDoFormulario();
+
+        $.post(urlFinal, dadosUsuario)
+            .done(function (resposta) {
+                $("#staticBackdropModal").modal('hide');
+                alert(resposta.mensagem);
+                listarUsuarios();
+            })
+            .fail(function (error) {
+                alert("error");
+                console.log("\n error: ", error);
+            })
+            .always(function () {
+                console.log("finished");
+            });
+    });
+
+    function obterDadosDoFormulario() {
+        var objetoUsuario = {
+            id: $("#id").val(),
+            nome: $("#nome").val(),
+            usuario: $("#usuario").val(),
+            email: $("#email").val(),
+            senha: $("#senha").val(),
+            status: $("#status").val(),
+            email_recuperacao: $("#email_recuperacao").val()
+        }
+
+        return objetoUsuario;
+    }
 });
