@@ -1,41 +1,37 @@
 $(document).ready(function () {
+    // atenção para o "?" depois do .php sem ele não funciona.
+    var urlBackEnd = "http://localhost/infoCurso/controllers/UsuariosController.php?";
 
     listarUsuarios();
 
-    $("#idTabelaUsuarios").on("click", ".btnExcluir", function () {
-        $(this).closest("tr").remove();
-    });
-
-    $("#idTabelaUsuarios").on("click", ".btnEditar", function () {
-
-        var id = $(this).val();
-
-        console.log("eu sou o id: " + id);
-
-        // $("#staticBackdrop").modal('show');
-    });
-
     function listarUsuarios() {
-        var urlBackEnd = "http://localhost/infoCurso/controllers/UsuariosController.php";
+        var objetosDaRota = {
+            rota: "dadosUsuarios",
+        }
 
-        $.get(urlBackEnd)
+        var urlFinal = urlBackEnd + $.param(objetosDaRota);
+
+        $.get(urlFinal)
             .done(function (listaDeUsuarios) {
-                console.log(listaDeUsuarios);
                 montarTabela(listaDeUsuarios)
             })
-            .fail(function () {
+            .fail(function (error) {
                 alert("error");
+                console.log("\n error: ", error);
             })
             .always(function () {
                 console.log("finished");
             });
-
     }
 
     function montarTabela(listaDeUsuarios) {
         var tabelaHtml = montarCabecalho();
         tabelaHtml += montarCorpoTabela(listaDeUsuarios);
-        // tabelaHtml = tabelaHtml + montarCorpoTabela(listaDeUsuarios);
+
+        // Se o backend não retornar nenhum dados exibimos a mensagem abaixo
+        if (!listaDeUsuarios || listaDeUsuarios.length <= 0) {
+            tabelaHtml = "<p><b>Sem dados para exibir!</b></p>";
+        }
 
         $("#idTabelaUsuarios").html(tabelaHtml);
     }
@@ -61,24 +57,25 @@ $(document).ready(function () {
     function montarCorpoTabela(listaDeUsuarios) {
         var body = "<body>";
 
-        $.each(listaDeUsuarios, function (indice, usuario) {
+        $.each(listaDeUsuarios, function (indice, dadosUsuario) {
 
-            var statusDesc = (usuario.status == 1) ? "Ativo" : "Inativo";
+            var statusDesc = (dadosUsuario.status == 1) ? "Ativo" : "Inativo";
 
-            var tr = "<tr>";
-            var td = "<td>" + usuario.id + "</td>";
-            td += "<td>" + usuario.nome + "</td>";
-            td += "<td>" + usuario.usuario + "</td>";
-            td += "<td>" + usuario.email + "</td>";
+            var td = "";
+
+            td += "<td>" + dadosUsuario.id + "</td>";
+            td += "<td>" + dadosUsuario.nome + "</td>";
+            td += "<td>" + dadosUsuario.usuario + "</td>";
+            td += "<td>" + dadosUsuario.email + "</td>";
             td += "<td>" + statusDesc + "</td>";
-            td += "<td>" + usuario.email_recuperacao + "</td>";
+            td += "<td>" + dadosUsuario.email_recuperacao + "</td>";
 
-           var btnEditar = "<button type='button' value=" + usuario.id + " class='btn btn-warning btnEditar'>Editar <i class='far fa-edit'></i></button>";
-            var btnExcluir = "<button type='button' value=" + usuario.id + " class='btn btn-danger btnExcluir'>Excluir <i class='far fa-trash-alt'></i></button>";
+            var btnEditar = "<button type='button' value=" + dadosUsuario.id + " class='btn btn-warning btnEditar'>Editar <i class='far fa-edit'></i></button>&nbsp;&nbsp;";
+            var btnExcluir = "<button type='button' value=" + dadosUsuario.id + " class='btn btn-danger btnExcluir'>Excluir <i class='far fa-trash-alt'></i></button>";
 
             td += "<td>" + btnEditar + btnExcluir + "</td>";
 
-            tr = td + "</tr>";
+            var tr = "<tr>" + td + "</tr>";
             body += tr;
         });
 
@@ -87,4 +84,35 @@ $(document).ready(function () {
         return body;
     }
 
+    // remover/excluir usuário
+    $("#idTabelaUsuarios").on("click", ".btnExcluir", function () {
+        $(this).closest("tr").remove();
+    });
+
+    // obter dados de um usuário para editar no modal
+    $("#idTabelaUsuarios").on("click", ".btnEditar", function () {
+
+        var idUsuario = $(this).val();
+
+        var objetosDaRota = {
+            rota: "obterDadosUsuario",
+            id: idUsuario
+        }
+
+        var urlFinal = urlBackEnd + $.param(objetosDaRota);
+
+        $.get(urlFinal)
+            .done(function (usuarioEditado) {
+                console.log(usuarioEditado)
+            })
+            .fail(function (error) {
+                alert("error");
+                console.log("\n error: ", error);
+            })
+            .always(function () {
+                console.log("finished");
+            });
+
+        // $("#staticBackdrop").modal('show');
+    });
 });
