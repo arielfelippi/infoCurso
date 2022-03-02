@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     function listarUsuarios() {
         var objetosDaRota = {
-            rota: "dadosUsuarios",
+            rota: "listarTodosUsuarios",
         }
 
         var urlFinal = urlBackEnd + $.param(objetosDaRota);
@@ -20,7 +20,7 @@ $(document).ready(function () {
                 console.log("\n error: ", error);
             })
             .always(function () {
-                console.log("finished");
+                console.log("finished - listarUsuarios");
             });
     }
 
@@ -99,6 +99,7 @@ $(document).ready(function () {
 
                 if (usuarioExcluido.success) {
                     $(this).closest("tr").remove();
+                    listarUsuarios();
                 } else {
                     var msg = usuarioExcluido.error ? usuarioExcluido.mensagem : "Não foi possível excluir o usuário. Contate o administrados!";
                     alert(msg);
@@ -119,7 +120,7 @@ $(document).ready(function () {
         var idUsuario = $(this).val();
 
         var objetosDaRota = {
-            rota: "obterDadosUsuario",
+            rota: "editarUsuario",
             id: idUsuario,
         }
 
@@ -143,7 +144,7 @@ $(document).ready(function () {
                 console.log("\n error: ", error);
             })
             .always(function () {
-                console.log("finished");
+                console.log("finished - editarUsuario");
             });
     });
 
@@ -184,7 +185,7 @@ $(document).ready(function () {
                 console.log("\n error: ", error);
             })
             .always(function () {
-                console.log("finished");
+                console.log("finished - salvar");
             });
     });
 

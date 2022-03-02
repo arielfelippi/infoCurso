@@ -37,7 +37,7 @@ class UsuariosController
     }
 
     // obtém todos os usuários
-    public function dadosUsuarios()
+    public function listarUsuarios()
     {
         $sql = "SELECT * FROM usuarios";
         $result = $this->conexao->query($sql);
@@ -86,6 +86,7 @@ class UsuariosController
 
         if (!empty($idUsuario) && is_numeric($idUsuario)) {
             $sql = "UPDATE usuarios SET status = 0 WHERE id={$idUsuario}";
+            // $sql = "DELETE FROM usuarios WHERE id={$idUsuario}";
             $result = $this->conexao->query($sql);
 
             // verificamos se de fato o usuario foi alterado/excluido
@@ -175,10 +176,10 @@ $objUsuariosController = new UsuariosController($conexao);
 
 // aqui obtemos nossa rota informada la no frontend (javascript) e conforme a rota informada redirecionamos a ação.
 switch ($objUsuariosController->getRota()) {
-    case "dadosUsuarios":
-            $objUsuariosController->dadosUsuarios();
+    case "listarTodosUsuarios":
+            $objUsuariosController->listarUsuarios();
         break;
-    case "obterDadosUsuario":
+    case "editarUsuario":
             $objUsuariosController->obterDadosUsuario();
         break;
     case "excluirUsuario":
