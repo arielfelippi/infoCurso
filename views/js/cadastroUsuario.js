@@ -40,12 +40,12 @@ $(document).ready(function () {
         var cabecalho = (
             "<thead>" +
                 "<tr>" +
-                    "<th>id</th>" +
-                    "<th>nome</th>" +
-                    "<th>usuário</th>" +
-                    "<th>e-mail</th>" +
-                    "<th>status</th>" +
-                    "<th>email_recuperacao</th>" +
+                    "<th>Id</th>" +
+                    "<th>Nome</th>" +
+                    "<th>Usuário</th>" +
+                    "<th>E-mail</th>" +
+                    "<th>Status</th>" +
+                    "<th>E-mail secundário</th>" +
                     "<th>Ações</th>" +
                 "</tr>" +
             "</thead>"
