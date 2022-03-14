@@ -7,6 +7,7 @@ class ProdutosController
     private $rota = null;
     private $conexao = null;
     public $request = null;
+    protected $nomeTabela = "produtos";
 
     public function __construct($conexao)
     {
@@ -39,7 +40,7 @@ class ProdutosController
     // obtém todos os produtos
     public function listarProdutos()
     {
-        $sql = "SELECT * FROM produtos";
+        $sql = "SELECT * FROM {$this->nomeTabela}";
         $result = $this->conexao->query($sql);
 
         $dados = [];
@@ -61,7 +62,7 @@ class ProdutosController
         $dados = [];
 
         if (!empty($idProduto) && is_numeric($idProduto)) {
-            $sql = "SELECT * FROM produtos WHERE id={$idProduto} LIMIT 1";
+            $sql = "SELECT * FROM {$this->nomeTabela} WHERE id={$idProduto} LIMIT 1";
             $result = $this->conexao->query($sql);
 
             if ($result->num_rows > 0) {
@@ -85,12 +86,12 @@ class ProdutosController
         ];
 
         if (!empty($idProduto) && is_numeric($idProduto)) {
-            $sql = "UPDATE produtos SET status = 0 WHERE id={$idProduto}";
-            // $sql = "DELETE FROM produtos WHERE id={$idProduto}";
+            $sql = "UPDATE {$this->nomeTabela} SET status = 0 WHERE id={$idProduto}";
+            // $sql = "DELETE FROM {$this->nomeTabela} WHERE id={$idProduto}";
             $result = $this->conexao->query($sql);
 
             // verificamos se de fato o produto foi alterado/excluido
-            $sql = "SELECT * FROM produtos WHERE id={$idProduto} AND status = 0 LIMIT 1";
+            $sql = "SELECT * FROM {$this->nomeTabela} WHERE id={$idProduto} AND status = 0 LIMIT 1";
             $result = $this->conexao->query($sql);
 
             if ($result->num_rows > 0) {
@@ -133,7 +134,7 @@ class ProdutosController
             $mensagem = "Produto atualizado com sucesso.";
 
             $sql = "UPDATE
-                        info_curso.produtos
+                        {$this->nomeTabela}
                     SET
                         nome = '{$nome}',
                         descricao = '{$descricao}',
@@ -157,7 +158,7 @@ class ProdutosController
 
             $sql = "INSERT
                     INTO
-                        info_curso.produtos
+                        {$this->nomeTabela}
                     (
                         nome,
                         descricao,

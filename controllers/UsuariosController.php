@@ -7,6 +7,7 @@ class UsuariosController
     private $rota = null;
     private $conexao = null;
     public $request = null;
+    protected $nomeTabela = "usuarios";
 
     public function __construct($conexao)
     {
@@ -39,7 +40,7 @@ class UsuariosController
     // obtém todos os usuários
     public function listarUsuarios()
     {
-        $sql = "SELECT * FROM usuarios";
+        $sql = "SELECT * FROM {$this->nomeTabela}";
         $result = $this->conexao->query($sql);
 
         $dados = [];
@@ -61,7 +62,7 @@ class UsuariosController
         $dados = [];
 
         if (!empty($idUsuario) && is_numeric($idUsuario)) {
-            $sql = "SELECT * FROM usuarios WHERE id={$idUsuario} LIMIT 1";
+            $sql = "SELECT * FROM {$this->nomeTabela} WHERE id={$idUsuario} LIMIT 1";
             $result = $this->conexao->query($sql);
 
             if ($result->num_rows > 0) {
@@ -85,12 +86,12 @@ class UsuariosController
         ];
 
         if (!empty($idUsuario) && is_numeric($idUsuario)) {
-            $sql = "UPDATE usuarios SET status = 0 WHERE id={$idUsuario}";
-            // $sql = "DELETE FROM usuarios WHERE id={$idUsuario}";
+            $sql = "UPDATE {$this->nomeTabela} SET status = 0 WHERE id={$idUsuario}";
+            // $sql = "DELETE FROM {$this->nomeTabela} WHERE id={$idUsuario}";
             $result = $this->conexao->query($sql);
 
             // verificamos se de fato o usuario foi alterado/excluido
-            $sql = "SELECT * FROM usuarios WHERE id={$idUsuario} AND status = 0 LIMIT 1";
+            $sql = "SELECT * FROM {$this->nomeTabela} WHERE id={$idUsuario} AND status = 0 LIMIT 1";
             $result = $this->conexao->query($sql);
 
             if ($result->num_rows > 0) {
@@ -124,7 +125,7 @@ class UsuariosController
             $mensagem = "Usuário atualizado com sucesso.";
 
             $sql = "UPDATE
-                        info_curso.usuarios
+                        {$this->nomeTabela}
                     SET
                         nome = '{$nome}',
                         usuario = '{$usuario}',
@@ -139,7 +140,7 @@ class UsuariosController
 
             $sql = "INSERT
                     INTO
-                        info_curso.usuarios
+                        {$this->nomeTabela}
                     (
                         nome,
                         usuario,
