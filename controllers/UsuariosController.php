@@ -1,17 +1,16 @@
 <?php
 
-require "../database/Conexao.php"; // require - importa uma vez | require_once - importa toda vez que o arquivo usuários é acessado/chamado.
+require "../Models/UsuarioModel.php"; // require - importa uma vez | require_once - importa toda vez que o arquivo usuários é acessado/chamado.
 
 class UsuariosController
 {
     private $rota = null;
-    private $conexao = null;
     public $request = null;
-    protected $nomeTabela = "usuarios";
+    protected $usuarioModel = null;
 
-    public function __construct($conexao)
+    public function __construct()
     {
-        $this->conexao = $conexao;
+        $this->usuarioModel = new UsuarioModel();
         $this->request = $_REQUEST;
         $this->rota = $this->request['rota'] ?? ""; // se não tiver a palavra rota nos parâmetros da URL informamos vazio.
     }
@@ -22,11 +21,10 @@ class UsuariosController
         return $this->rota;
     }
 
-    // desconectamos do banco de dados.
-    public function desconectar()
+    // desconectamos do banco de dados pelo model.
+    public function desconectarModel()
     {
-        $this->conexao->close();
-        $this->conexao = null;
+        $this->usuarioModel->desconectar();
     }
 
     // setamos o retorno para o front no formato JSON (javascript - objeto)
@@ -40,10 +38,9 @@ class UsuariosController
     // obtém todos os usuários
     public function listarUsuarios()
     {
-        $sql = "SELECT * FROM {$this->nomeTabela}";
-        $result = $this->conexao->query($sql);
-
         $dados = [];
+
+        $result = $this->usuarioModel->listar();
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -62,8 +59,7 @@ class UsuariosController
         $dados = [];
 
         if (!empty($idUsuario) && is_numeric($idUsuario)) {
-            $sql = "SELECT * FROM {$this->nomeTabela} WHERE id={$idUsuario} LIMIT 1";
-            $result = $this->conexao->query($sql);
+            $result = $this->usuarioModel->obter($idUsuario);
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -86,15 +82,9 @@ class UsuariosController
         ];
 
         if (!empty($idUsuario) && is_numeric($idUsuario)) {
-            $sql = "UPDATE {$this->nomeTabela} SET status = 0 WHERE id={$idUsuario}";
-            // $sql = "DELETE FROM {$this->nomeTabela} WHERE id={$idUsuario}";
-            $result = $this->conexao->query($sql);
+            $result = $this->usuarioModel->excluir($idUsuario);
 
-            // verificamos se de fato o usuario foi alterado/excluido
-            $sql = "SELECT * FROM {$this->nomeTabela} WHERE id={$idUsuario} AND status = 0 LIMIT 1";
-            $result = $this->conexao->query($sql);
-
-            if ($result->num_rows > 0) {
+            if ($result) {
                 $dados = [
                     "success" => 201,
                     "mensagem" => "Usuário excluído."
@@ -124,47 +114,19 @@ class UsuariosController
         if (!empty($idUsuario) && is_numeric($idUsuario)) {
             $mensagem = "Usuário atualizado com sucesso.";
 
-            $sql = "UPDATE
-                        {$this->nomeTabela}
-                    SET
-                        nome = '{$nome}',
-                        usuario = '{$usuario}',
-                        email = '{$email}',
-                        senha = '{$senha}',
-                        status = '{$status}',
-                        email_recuperacao = '{$email_recuperacao}'
-                    WHERE
-                        id = {$idUsuario};";
+            $result = $this->usuarioModel->atualizar($nome, $usuario, $email, $senha, $status, $email_recuperacao, $idUsuario);
         } else {
             $mensagem = "Usuário cadastrado com sucesso.";
 
-            $sql = "INSERT
-                    INTO
-                        {$this->nomeTabela}
-                    (
-                        nome,
-                        usuario,
-                        email,
-                        senha,
-                        status,
-                        email_recuperacao
-                    )
-                    VALUES(
-                        '{$nome}',
-                        '{$usuario}',
-                        '{$email}',
-                        '{$senha}',
-                        '{$status}',
-                        '{$email_recuperacao}'
-                    );";
+            $result = $this->usuarioModel->cadastrar($nome, $usuario, $email, $senha, $status, $email_recuperacao);
+            $idUsuario = $result;
         }
-
-        $result = $this->conexao->query($sql);
 
         if ($result) {
             $dados = [
                 "success" => 201,
-                "mensagem" => $mensagem
+                "mensagem" => $mensagem,
+                "idUsuario" => $idUsuario,
             ];
         }
 
@@ -194,5 +156,5 @@ switch ($objUsuariosController->getRota()) {
         break;
 }
 
-// após termino execução encerramos a conexao com o banco
-$objUsuariosController->desconectar();
+// após termino execução encerramos a conexão do model com o banco
+$objUsuariosController->desconectarModel();
